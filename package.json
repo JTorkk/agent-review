@@ -1,0 +1,84 @@
+{
+  "name": "agent-review",
+  "displayName": "Agent Review",
+  "description": "Review AI agent changes to Markdown files: rendered diff, inline comments, and a copy-for-agent export.",
+  "version": "0.0.1",
+  "publisher": "local",
+  "private": true,
+  "engines": {
+    "vscode": "^1.100.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "main": "./dist/extension.js",
+  "activationEvents": [],
+  "contributes": {
+    "commands": [
+      {
+        "command": "agentReview.open",
+        "title": "Open in Review Viewer",
+        "category": "Agent Review",
+        "icon": "$(comment-discussion)"
+      },
+      {
+        "command": "agentReview.copyAll",
+        "title": "Copy All Comments for Agent",
+        "category": "Agent Review"
+      },
+      {
+        "command": "agentReview.clearAll",
+        "title": "Clear All Comments",
+        "category": "Agent Review"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "agentReview.open",
+          "when": "resourceExtname == .md",
+          "group": "navigation@90"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "agentReview.open",
+          "when": "resourceLangId == markdown",
+          "group": "navigation"
+        }
+      ],
+      "editor/title/context": [
+        {
+          "command": "agentReview.open",
+          "when": "resourceExtname == .md"
+        }
+      ],
+      "scm/resourceState/context": [
+        {
+          "command": "agentReview.open",
+          "when": "resourceExtname == .md",
+          "group": "navigation"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "check": "tsc --noEmit",
+    "build": "node esbuild.mjs",
+    "watch": "node esbuild.mjs --watch",
+    "vscode:prepublish": "node esbuild.mjs --production",
+    "package": "npm run check && vsce package --no-dependencies --skip-license --allow-missing-repository"
+  },
+  "dependencies": {
+    "diff": "^8.0.2",
+    "markdown-it": "^14.1.0"
+  },
+  "devDependencies": {
+    "@types/markdown-it": "^14.1.2",
+    "@types/node": "^20.0.0",
+    "@types/vscode": "~1.100.0",
+    "@vscode/vsce": "^3.6.0",
+    "esbuild": "^0.25.0",
+    "typescript": "^5.8.0"
+  }
+}
